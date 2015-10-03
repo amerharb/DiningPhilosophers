@@ -170,6 +170,12 @@ public class Philosopher implements Runnable
 
     }
 
+    public static void resetAllPeriods(){
+        allPhilosopherThinkingPeriod = 0;
+        allPhilosopherEatingPeriod = 0;
+        allPhilosopherWaitingPeriod = 0;    
+    }
+    
     public long getThinkingPeriod()
     {
         return thinkingPeriod;
