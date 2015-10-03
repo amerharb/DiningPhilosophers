@@ -1,7 +1,7 @@
 //description of a table in the Dining Philosophers problem
 package diningphilosophers;
 
-public class AdvTable extends Table
+public class AdvTable
 {
 
     int nbrOfChopsticks;
@@ -28,7 +28,6 @@ public class AdvTable extends Table
 
     public AdvTable(int nbrOfSticks)
     {
-        super(nbrOfSticks);
         nbrOfChopsticks = nbrOfSticks;
         advChopstick = new ChopstickClass[nbrOfSticks];
         for (int i = 0; i < nbrOfSticks; i++) {
@@ -36,7 +35,6 @@ public class AdvTable extends Table
         }
     }
 
-    @Override
     public synchronized void getLeft(int n) throws InterruptedException
     {
         //philosopher n picks up its left chopstick
@@ -53,7 +51,6 @@ public class AdvTable extends Table
         //System.out.println(n + ": get left");
     }
 
-    @Override
     public synchronized void getRight(int n) throws InterruptedException
     {
         //philosopher n picks up its right chopstick
@@ -78,7 +75,6 @@ public class AdvTable extends Table
         //System.out.println(n + ": get right");
     }
 
-    @Override
     public synchronized void releaseLeft(int n)
     {
         //philosopher n puts down its left chopstick
