@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 public class Philosopher implements Runnable
 {
 
-    //CHANGE HERE
     final int iteration;
     final int thinkingTime;
     final int afterPickingLeftTime;
@@ -27,13 +26,12 @@ public class Philosopher implements Runnable
     private static long allPhilosopherThinkingPeriod;
     private static long allPhilosopherEatingPeriod;
     private static long allPhilosopherWaitingPeriod;
-    
+
     private Table myTable;
     private AdvTable myAdvTable;
     private byte whichTableToUse; // 0- Table class 1- Adv Table Class
-    
 
-    public Philosopher(int pid, Table tab,int iteration, int thinkingTime, int afterPickingLeftTime, int eatingTime, int afterReleaseLeftTime)
+    public Philosopher(int pid, Table tab, int iteration, int thinkingTime, int afterPickingLeftTime, int eatingTime, int afterReleaseLeftTime)
     {
         id = pid;
         myTable = tab;
@@ -50,7 +48,7 @@ public class Philosopher implements Runnable
         this(pid, tab, 100, 100, 10, 100, 10);
     }
 
-    public Philosopher(int pid, AdvTable advTab,int iteration, int thinkingTime, int afterPickingLeftTime, int eatingTime, int afterReleaseLeftTime)
+    public Philosopher(int pid, AdvTable advTab, int iteration, int thinkingTime, int afterPickingLeftTime, int eatingTime, int afterReleaseLeftTime)
     {
         id = pid;
         myAdvTable = advTab;
@@ -74,7 +72,7 @@ public class Philosopher implements Runnable
         StopWatch eatingSW = new StopWatch(); // count the time between actually pick up the right chopstick untill attend to release the left one
         StopWatch waitingSW = new StopWatch(); // it count the time between attend to pick up the left chopstick (not actualy picking it) until pick up the right one actually and the time from releasing the left until releasing the right
 
-        switch(whichTableToUse){
+        switch (whichTableToUse) {
         case 0:
             for (int i = 0; i < iteration; i++) {
                 try {
@@ -149,13 +147,12 @@ public class Philosopher implements Runnable
         thinkingPeriod = thinkingSW.getPeriod();
         eatingPeriod = eatingSW.getPeriod();
         waitingPeriod = waitingSW.getPeriod();
-        
+
         System.out.println("-------------------------------------------------------------------------");
         System.out.println("thinking Time of Philosopher " + id + ": " + thinkingPeriod);
         System.out.println("eating Time of Philosopher " + id + ": " + eatingPeriod);
         System.out.println("waiting Time of Philosopher " + id + ": " + waitingPeriod);
         System.out.println("-------------------------------------------------------------------------");
-
 
         allPhilosopherThinkingPeriod += thinkingPeriod;
         allPhilosopherEatingPeriod += eatingPeriod;
@@ -165,17 +162,23 @@ public class Philosopher implements Runnable
         System.out.println("Thinking Time of All Philosophers: " + allPhilosopherThinkingPeriod);
         System.out.println("Eating Time of All Philosophers: " + allPhilosopherEatingPeriod);
         System.out.println("Waiting Time of All Philosophers: " + allPhilosopherWaitingPeriod);
-        System.out.println("Total Time of All Philosophers: " + allPhilosopherThinkingPeriod + allPhilosopherEatingPeriod + allPhilosopherWaitingPeriod);
+        System.out.println("Total Time of All Philosophers: " + getAllPhilosophersWaitingPeriods());
         System.out.println("=========================================================================");
 
     }
 
-    public static void resetAllPeriods(){
+    public static void resetAllPeriods()
+    {
         allPhilosopherThinkingPeriod = 0;
         allPhilosopherEatingPeriod = 0;
-        allPhilosopherWaitingPeriod = 0;    
+        allPhilosopherWaitingPeriod = 0;
     }
-    
+
+    public static long getAllPhilosophersWaitingPeriods()
+    {
+        return (allPhilosopherThinkingPeriod + allPhilosopherEatingPeriod + allPhilosopherWaitingPeriod);
+    }
+
     public long getThinkingPeriod()
     {
         return thinkingPeriod;
@@ -190,5 +193,5 @@ public class Philosopher implements Runnable
     {
         return waitingPeriod;
     }
-    
+
 }

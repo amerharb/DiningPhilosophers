@@ -29,7 +29,7 @@ public class DiningPhilosophers
         }
         
         while (Thread.activeCount() > 1) {
-            Thread.sleep(4000);
+            Thread.sleep(2500);
         }
         
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -41,8 +41,10 @@ public class DiningPhilosophers
         System.out.println("eatingTime =  " + eatingTime);
         System.out.println("afterReleaseLeftTime = " + afterReleaseLeftTime);
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
+        
+        long normalTableWaiting = Philosopher.getAllPhilosophersWaitingPeriods();
         Philosopher.resetAllPeriods();
+        
         AdvTable advTab;
         advTab = new AdvTable(size);
         for (int i = 0; i < size; i++) {
@@ -51,7 +53,7 @@ public class DiningPhilosophers
         }
         
         while (Thread.activeCount() > 1) {
-            Thread.sleep(4000);
+            Thread.sleep(2500);
         }
         
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -64,5 +66,10 @@ public class DiningPhilosophers
         System.out.println("afterReleaseLeftTime = " + afterReleaseLeftTime);
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
+        long advTableWaiting = Philosopher.getAllPhilosophersWaitingPeriods();
+        Philosopher.resetAllPeriods();
+
+        System.out.println("ADV is faster by (minus means slower) :" + ((double)(normalTableWaiting - advTableWaiting) / normalTableWaiting * 100) + "%");
+        
     }
 }
