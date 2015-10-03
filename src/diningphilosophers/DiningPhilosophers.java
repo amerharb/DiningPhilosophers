@@ -14,10 +14,10 @@ public class DiningPhilosophers
     public static void main(String[] args) throws InterruptedException
     {
         //CHANGE HERE
-        final int size = 30; //number of philosophers and chopsticks
-        final int iteration = 10;
+        final int size = 5; //number of philosophers and chopsticks
+        final int iteration = 100;
         final int thinkingTime = 100;
-        final int afterPickingLeftTime = 100;
+        final int afterPickingLeftTime = 10;
         final int eatingTime = 100;
         final int afterReleaseLeftTime = 10;
         
