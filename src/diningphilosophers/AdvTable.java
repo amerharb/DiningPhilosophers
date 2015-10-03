@@ -59,13 +59,11 @@ public class AdvTable extends Table
         //philosopher n picks up its right chopstick
         int rightChopstick = (n + 1) % nbrOfChopsticks;
 
-        //while (!chopstick[pos]) {
         while (advChopstick[rightChopstick].status == 2
                 | (advChopstick[rightChopstick].status == 1 & advChopstick[rightChopstick].philosopher != n)) {
             System.out.println("---------------STOP: right one requested when its busy");
             this.wait();
         }
-//        chopstick[pos] = false;
         advChopstick[rightChopstick].status = 2;  //use Right Chopstick
         advChopstick[rightChopstick].philosopher = n;
         

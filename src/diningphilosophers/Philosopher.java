@@ -11,11 +11,11 @@ public class Philosopher implements Runnable
 {
 
     //CHANGE HERE
-    final int iteration = 300;
-    final int thinkingTime = 100;
-    final int afterPickingLeftTime = 5;
-    final int eatingTime = 100;
-    final int afterReleaseLeftTime = 10;
+    final int iteration;
+    final int thinkingTime;
+    final int afterPickingLeftTime;
+    final int eatingTime;
+    final int afterReleaseLeftTime;
 
     private int id;
 
@@ -32,16 +32,20 @@ public class Philosopher implements Runnable
     private Table myTable;
 
     //CHANGE HERE
-    public Philosopher(int pid, Table tab)
+    public Philosopher(int pid, Table tab,int iteration, int thinkingTime, int afterPickingLeftTime, int eatingTime, int afterReleaseLeftTime)
     {
         id = pid;
         myTable = tab;
+        this.iteration = iteration;
+        this.thinkingTime = thinkingTime;
+        this.afterPickingLeftTime = afterPickingLeftTime;
+        this.eatingTime = eatingTime;
+        this.afterReleaseLeftTime = afterReleaseLeftTime;
     }
 
-    public Philosopher(int pid, AdvTable tab)
+    public Philosopher(int pid, Table tab)
     {
-        id = pid;
-        myTable = tab;
+        this(pid, tab, 100, 100, 10, 100, 10);
     }
 
     @Override
