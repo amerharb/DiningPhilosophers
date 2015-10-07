@@ -78,7 +78,6 @@ public class Philosopher implements Runnable
         this.afterPickingLeftTime = 0;
         this.eatingTime = 0;
         this.afterReleaseLeftTime = 0;
-        this.whichTableToUse = 0;
 
     }
 
@@ -118,7 +117,6 @@ public class Philosopher implements Runnable
         this.afterPickingLeftTime = 0;
         this.eatingTime = 0;
         this.afterReleaseLeftTime = 0;
-        this.whichTableToUse = 0;
 
     }
 
@@ -318,6 +316,11 @@ public class Philosopher implements Runnable
     public static long getAllPhilosophersWaitingPeriods()
     {
         return (allPhilosopherWaitingPeriod);
+    }
+
+    public static long getAllPhilosophersTotalPeriod()
+    {
+        return (allPhilosopherThinkingPeriod + allPhilosopherEatingPeriod + allPhilosopherWaitingPeriod);
     }
 
     public long getThinkingPeriod()
