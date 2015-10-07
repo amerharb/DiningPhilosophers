@@ -17,6 +17,12 @@ public class Philosopher implements Runnable
     final int eatingTime;
     final int afterReleaseLeftTime;
 
+    final byte runningMode; //0-random timming, 1-array of timing will be provided
+    final int[] thinkingTimeArray;
+    final int[] afterPickingLeftTimeArray;
+    final int[] eatingTimeArray;
+    final int[] afterReleaseLeftTimeArray;
+
     private int id;
 
     private long thinkingPeriod;
@@ -33,117 +39,252 @@ public class Philosopher implements Runnable
 
     public Philosopher(int pid, Table tab, int iteration, int thinkingTime, int afterPickingLeftTime, int eatingTime, int afterReleaseLeftTime)
     {
+        whichTableToUse = 0; //thats mean the class will use the normal Table class
+        runningMode = 0; //the timing is random but the above value will have an affect of random range
+
         id = pid;
         myTable = tab;
         this.iteration = iteration;
+
         this.thinkingTime = thinkingTime;
         this.afterPickingLeftTime = afterPickingLeftTime;
         this.eatingTime = eatingTime;
         this.afterReleaseLeftTime = afterReleaseLeftTime;
-        this.whichTableToUse = 0;
+
+        this.thinkingTimeArray = null;
+        this.afterPickingLeftTimeArray = null;
+        this.eatingTimeArray = null;
+        this.afterReleaseLeftTimeArray = null;
     }
 
-    public Philosopher(int pid, Table tab)
+//    public Philosopher(int pid, Table tab)
+//    {
+//        this(pid, tab, 100, 100, 10, 100, 10);
+//    }
+    public Philosopher(int pid, Table tab, int iteration, int[] thinkingTime, int[] afterPickingLeftTime, int[] eatingTime, int[] afterReleaseLeftTime)
     {
-        this(pid, tab, 100, 100, 10, 100, 10);
+        whichTableToUse = 0; //thats mean the class will use the normal Table class
+        runningMode = 1; //there will be no random value instead the timming will come in arrays
+        id = pid;
+        myTable = tab;
+        this.iteration = iteration;
+
+        this.thinkingTimeArray = thinkingTime;
+        this.afterPickingLeftTimeArray = afterPickingLeftTime;
+        this.eatingTimeArray = eatingTime;
+        this.afterReleaseLeftTimeArray = afterReleaseLeftTime;
+
+        this.thinkingTime = 0;
+        this.afterPickingLeftTime = 0;
+        this.eatingTime = 0;
+        this.afterReleaseLeftTime = 0;
+        this.whichTableToUse = 0;
+
     }
 
     public Philosopher(int pid, AdvTable advTab, int iteration, int thinkingTime, int afterPickingLeftTime, int eatingTime, int afterReleaseLeftTime)
     {
+        whichTableToUse = 1; //that mean the class will use the ADV Table class
+        runningMode = 0; //the timing is random but the above value will have an affect of random range
         id = pid;
         myAdvTable = advTab;
         this.iteration = iteration;
+
         this.thinkingTime = thinkingTime;
         this.afterPickingLeftTime = afterPickingLeftTime;
         this.eatingTime = eatingTime;
         this.afterReleaseLeftTime = afterReleaseLeftTime;
-        this.whichTableToUse = 1;
+
+        this.thinkingTimeArray = null;
+        this.afterPickingLeftTimeArray = null;
+        this.eatingTimeArray = null;
+        this.afterReleaseLeftTimeArray = null;
     }
 
-    public Philosopher(int pid, AdvTable advTab)
+    public Philosopher(int pid, AdvTable advTab, int iteration, int[] thinkingTime, int[] afterPickingLeftTime, int[] eatingTime, int[] afterReleaseLeftTime)
     {
-        this(pid, advTab, 100, 100, 10, 100, 10);
+        whichTableToUse = 1; //thats mean the class will use the normal Table class
+        runningMode = 1; //there will be no random value instead the timming will come in arrays
+        id = pid;
+        myAdvTable = advTab;
+        this.iteration = iteration;
+
+        this.thinkingTimeArray = thinkingTime;
+        this.afterPickingLeftTimeArray = afterPickingLeftTime;
+        this.eatingTimeArray = eatingTime;
+        this.afterReleaseLeftTimeArray = afterReleaseLeftTime;
+
+        this.thinkingTime = 0;
+        this.afterPickingLeftTime = 0;
+        this.eatingTime = 0;
+        this.afterReleaseLeftTime = 0;
+        this.whichTableToUse = 0;
+
     }
 
+//    public Philosopher(int pid, AdvTable advTab)
+//    {
+//        this(pid, advTab, 100, 100, 10, 100, 10);
+//    }
+//    
     @Override
     public void run()
     {
         StopWatch thinkingSW = new StopWatch();//count the time between release right (or from the begning as the initioal status of philosopher is thinking) chopstick until attend to pick the left one 
         StopWatch eatingSW = new StopWatch(); // count the time between actually pick up the right chopstick untill attend to release the left one
         StopWatch waitingSW = new StopWatch(); // it count the time between attend to pick up the left chopstick (not actualy picking it) until pick up the right one actually and the time from releasing the left until releasing the right
-
-        switch (whichTableToUse) {
+        switch (runningMode) {
         case 0:
-            for (int i = 0; i < iteration; i++) {
-                try {
-                    //think
-                    System.out.println("Philosopher " + id + " thinks. Iteration " + i);
-                    thinkingSW.start();
-                    Thread.sleep((int) (Math.random() * thinkingTime));
-                    thinkingSW.stop();
+            switch (whichTableToUse) {
+            case 0:
+                for (int i = 0; i < iteration; i++) {
+                    try {
+                        //think
+                        System.out.println("Philosopher " + id + " thinks. Iteration " + i);
+                        thinkingSW.start();
+                        Thread.sleep((int) (Math.random() * thinkingTime));
+                        thinkingSW.stop();
 
-                    //pick up chopsticks
-                    System.out.println("Philosopher " + id + " pick up left");
-                    waitingSW.start();
-                    myTable.getLeft(id);
-                    Thread.sleep((int) (Math.random() * afterPickingLeftTime));
-                    System.out.println("Philosopher " + id + " pick up right");
-                    myTable.getRight(id);
-                    waitingSW.stop();
-                    //eat
-                    System.out.println("Philosopher " + id + " eats. Iteration " + i);
-                    eatingSW.start();
-                    Thread.sleep((int) (Math.random() * eatingTime));
-                    eatingSW.stop();
-                    //release chopsticks
-                    System.out.println("Philosopher " + id + " drop left");
-                    waitingSW.start();
-                    myTable.releaseLeft(id);
-                    Thread.sleep((int) (Math.random() * afterReleaseLeftTime));
-                    System.out.println("Philosopher " + id + " drop right");
-                    myTable.releaseRight(id);
-                    waitingSW.stop();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
+                        //pick up chopsticks
+                        System.out.println("Philosopher " + id + " pick up left");
+                        waitingSW.start();
+                        myTable.getLeft(id);
+                        Thread.sleep((int) (Math.random() * afterPickingLeftTime));
+                        System.out.println("Philosopher " + id + " pick up right");
+                        myTable.getRight(id);
+                        waitingSW.stop();
+                        //eat
+                        System.out.println("Philosopher " + id + " eats. Iteration " + i);
+                        eatingSW.start();
+                        Thread.sleep((int) (Math.random() * eatingTime));
+                        eatingSW.stop();
+                        //release chopsticks
+                        System.out.println("Philosopher " + id + " drop left");
+                        waitingSW.start();
+                        myTable.releaseLeft(id);
+                        Thread.sleep((int) (Math.random() * afterReleaseLeftTime));
+                        System.out.println("Philosopher " + id + " drop right");
+                        myTable.releaseRight(id);
+                        waitingSW.stop();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+                break;
+            case 1:
+                for (int i = 0; i < iteration; i++) {
+                    try {
+                        //think
+                        System.out.println("Philosopher " + id + " thinks. Iteration " + i);
+                        thinkingSW.start();
+                        Thread.sleep((int) (Math.random() * thinkingTime));
+                        thinkingSW.stop();
+
+                        //pick up chopsticks
+                        System.out.println("Philosopher " + id + " pick up left");
+                        waitingSW.start();
+                        myAdvTable.getLeft(id);
+                        Thread.sleep((int) (Math.random() * afterPickingLeftTime));
+                        System.out.println("Philosopher " + id + " pick up right");
+                        myAdvTable.getRight(id);
+                        waitingSW.stop();
+                        //eat
+                        System.out.println("Philosopher " + id + " eats. Iteration " + i);
+                        eatingSW.start();
+                        Thread.sleep((int) (Math.random() * eatingTime));
+                        eatingSW.stop();
+                        //release chopsticks
+                        System.out.println("Philosopher " + id + " drop left");
+                        waitingSW.start();
+                        myAdvTable.releaseLeft(id);
+                        Thread.sleep((int) (Math.random() * afterReleaseLeftTime));
+                        System.out.println("Philosopher " + id + " drop right");
+                        myAdvTable.releaseRight(id);
+                        waitingSW.stop();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
             }
             break;
-        case 1:
-            for (int i = 0; i < iteration; i++) {
-                try {
-                    //think
-                    System.out.println("Philosopher " + id + " thinks. Iteration " + i);
-                    thinkingSW.start();
-                    Thread.sleep((int) (Math.random() * thinkingTime));
-                    thinkingSW.stop();
+        case 1: //there will be no random in this case
+            switch (whichTableToUse) {
+            case 0:
+                for (int i = 0; i < iteration; i++) {
+                    try {
+                        //think
+                        System.out.println("Philosopher " + id + " thinks. Iteration " + i);
+                        thinkingSW.start();
+                        Thread.sleep(thinkingTimeArray[i]);
+                        thinkingSW.stop();
 
-                    //pick up chopsticks
-                    System.out.println("Philosopher " + id + " pick up left");
-                    waitingSW.start();
-                    myAdvTable.getLeft(id);
-                    Thread.sleep((int) (Math.random() * afterPickingLeftTime));
-                    System.out.println("Philosopher " + id + " pick up right");
-                    myAdvTable.getRight(id);
-                    waitingSW.stop();
-                    //eat
-                    System.out.println("Philosopher " + id + " eats. Iteration " + i);
-                    eatingSW.start();
-                    Thread.sleep((int) (Math.random() * eatingTime));
-                    eatingSW.stop();
-                    //release chopsticks
-                    System.out.println("Philosopher " + id + " drop left");
-                    waitingSW.start();
-                    myAdvTable.releaseLeft(id);
-                    Thread.sleep((int) (Math.random() * afterReleaseLeftTime));
-                    System.out.println("Philosopher " + id + " drop right");
-                    myAdvTable.releaseRight(id);
-                    waitingSW.stop();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
+                        //pick up chopsticks
+                        System.out.println("Philosopher " + id + " pick up left");
+                        waitingSW.start();
+                        myTable.getLeft(id);
+                        Thread.sleep((int) (afterPickingLeftTimeArray[i]));
+                        System.out.println("Philosopher " + id + " pick up right");
+                        myTable.getRight(id);
+                        waitingSW.stop();
+                        //eat
+                        System.out.println("Philosopher " + id + " eats. Iteration " + i);
+                        eatingSW.start();
+                        Thread.sleep((int) (eatingTimeArray[i]));
+                        eatingSW.stop();
+                        //release chopsticks
+                        System.out.println("Philosopher " + id + " drop left");
+                        waitingSW.start();
+                        myTable.releaseLeft(id);
+                        Thread.sleep((int) (afterReleaseLeftTimeArray[i]));
+                        System.out.println("Philosopher " + id + " drop right");
+                        myTable.releaseRight(id);
+                        waitingSW.stop();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+                break;
+            case 1:
+                for (int i = 0; i < iteration; i++) {
+                    try {
+                        //think
+                        System.out.println("Philosopher " + id + " thinks. Iteration " + i);
+                        thinkingSW.start();
+                        Thread.sleep((int) (thinkingTimeArray[i]));
+                        thinkingSW.stop();
+
+                        //pick up chopsticks
+                        System.out.println("Philosopher " + id + " pick up left");
+                        waitingSW.start();
+                        myAdvTable.getLeft(id);
+                        Thread.sleep((int) (afterPickingLeftTimeArray[i]));
+                        System.out.println("Philosopher " + id + " pick up right");
+                        myAdvTable.getRight(id);
+                        waitingSW.stop();
+                        //eat
+                        System.out.println("Philosopher " + id + " eats. Iteration " + i);
+                        eatingSW.start();
+                        Thread.sleep((int) (eatingTimeArray[i]));
+                        eatingSW.stop();
+                        //release chopsticks
+                        System.out.println("Philosopher " + id + " drop left");
+                        waitingSW.start();
+                        myAdvTable.releaseLeft(id);
+                        Thread.sleep((int) (afterReleaseLeftTimeArray[i]));
+                        System.out.println("Philosopher " + id + " drop right");
+                        myAdvTable.releaseRight(id);
+                        waitingSW.stop();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
             }
             break;
+
         }
+        
         thinkingPeriod = thinkingSW.getPeriod();
         eatingPeriod = eatingSW.getPeriod();
         waitingPeriod = waitingSW.getPeriod();
@@ -176,7 +317,7 @@ public class Philosopher implements Runnable
 
     public static long getAllPhilosophersWaitingPeriods()
     {
-        return (allPhilosopherThinkingPeriod + allPhilosopherEatingPeriod + allPhilosopherWaitingPeriod);
+        return (allPhilosopherWaitingPeriod);
     }
 
     public long getThinkingPeriod()
