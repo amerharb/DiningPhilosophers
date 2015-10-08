@@ -282,7 +282,7 @@ public class Philosopher implements Runnable
             break;
 
         }
-        
+
         thinkingPeriod = thinkingSW.getPeriod();
         eatingPeriod = eatingSW.getPeriod();
         waitingPeriod = waitingSW.getPeriod();
@@ -301,7 +301,7 @@ public class Philosopher implements Runnable
         System.out.println("Thinking Time of All Philosophers: " + allPhilosopherThinkingPeriod);
         System.out.println("Eating Time of All Philosophers: " + allPhilosopherEatingPeriod);
         System.out.println("Waiting Time of All Philosophers: " + allPhilosopherWaitingPeriod);
-        System.out.println("Total Time of All Philosophers: " + getAllPhilosophersWaitingPeriods());
+        System.out.println("Total Time of All Philosophers: " + getAllPhilosophersTotalPeriod());
         System.out.println("=========================================================================");
 
     }

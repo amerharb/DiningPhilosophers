@@ -39,14 +39,15 @@ public class AdvTable
     {
         //philosopher n picks up its left chopstick
         int rightChopstick = (n + 1) % nbrOfChopsticks;
-//        while (!chopstick[n] | !chopstick[rightChopstick]) {
-        while (advChopstick[n].status != 0 | advChopstick[rightChopstick].status != 0) {
+        while ((advChopstick[n].status != 0 & advChopstick[n].philosopher != n)
+                | (advChopstick[rightChopstick].status != 0 & advChopstick[rightChopstick].philosopher != n)) {
             this.wait();
         }
-//        chopstick[n] = false;
         advChopstick[n].status = 2;  //use Left Chopstick
         advChopstick[n].philosopher = n;
-        advChopstick[rightChopstick].status = 1; //request Right Chopstick
+        if (advChopstick[rightChopstick].status != 2) {
+            advChopstick[rightChopstick].status = 1; //request Right Chopstick
+        }
         advChopstick[rightChopstick].philosopher = n;
         //System.out.println(n + ": get left");
     }
@@ -63,7 +64,11 @@ public class AdvTable
         }
         advChopstick[rightChopstick].status = 2;  //use Right Chopstick
         advChopstick[rightChopstick].philosopher = n;
-        
+        if (advChopstick[n].status != 2) { //if the chopstick not already busy then make it requested (booked)
+            advChopstick[n].status = 1; //request Right Chopstick
+        }
+        advChopstick[n].philosopher = n;
+
         //this code to check the prefomance of the code by check how many dinner at the same time 
         dinner++;
         //System.out.println("number of dinner :" + dinner);

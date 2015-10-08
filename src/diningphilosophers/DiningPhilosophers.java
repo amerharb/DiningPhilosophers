@@ -15,29 +15,46 @@ public class DiningPhilosophers
     {
         //CHANGE HERE
         final int size = 5; //number of philosophers and chopsticks
-        final int iteration = 1000;
+        final int iteration = 20;
         final int thinkingTime = 100;
         final int afterPickingLeftTime = 10;
         final int eatingTime = 100;
         final int afterReleaseLeftTime = 10;
 
-        final int[] thinkingTimeArray = new int[iteration];
-        final int[] afterPickingLeftTimeArray = new int[iteration];
-        final int[] eatingTimeArray = new int[iteration];
-        final int[] afterReleaseLeftTimeArray = new int[iteration];
-
-        for (int i = 0; i < iteration; i++) {
-            thinkingTimeArray[i] = (int) (Math.random() * thinkingTime);
-            afterPickingLeftTimeArray[i] = (int) (Math.random() * afterPickingLeftTime);
-            eatingTimeArray[i] = (int) (Math.random() * eatingTime);
-            afterReleaseLeftTimeArray[i] = (int) (Math.random() * afterReleaseLeftTime);
+        //the following block will generate a random value of sleeping then inject them to the philisopher 
+        //class that we are going to use in order to make it a fair comparing 
+        long StartTime = System.currentTimeMillis();
+        
+        final int[][][] PhilosophersTimingArray = new int[size][4][iteration];
+        
+        for (int p = 0; p < size; p++){
+            final int[] thinkingTimeArray = new int[iteration];
+            final int[] afterPickingLeftTimeArray = new int[iteration];
+            final int[] eatingTimeArray = new int[iteration];
+            final int[] afterReleaseLeftTimeArray = new int[iteration];
+            
+            for (int i = 0; i < iteration; i++) {
+                thinkingTimeArray[i] = (int) (Math.random() * thinkingTime);
+                afterPickingLeftTimeArray[i] = (int) (Math.random() * afterPickingLeftTime);
+                eatingTimeArray[i] = (int) (Math.random() * eatingTime);
+                afterReleaseLeftTimeArray[i] = (int) (Math.random() * afterReleaseLeftTime);
+            }
+            PhilosophersTimingArray[p][0] =  thinkingTimeArray;
+            PhilosophersTimingArray[p][1] =  afterPickingLeftTimeArray;
+            PhilosophersTimingArray[p][2] =  eatingTimeArray;
+            PhilosophersTimingArray[p][3] =  afterReleaseLeftTimeArray;
+            
         }
+        
+        System.out.println("How long it take to generate times (in milliseconds): " + (System.currentTimeMillis() - StartTime));
 
-        Table tab;
-        tab = new Table(size);
-        for (int i = 0; i < size; i++) {
+        AdvTable tab;
+        tab = new AdvTable(size);
+        for (int p = 0; p < size; p++) {
+            
             //Thread th = new Thread(new Philosopher(i, tab, iteration, thinkingTime, afterPickingLeftTime, eatingTime, afterReleaseLeftTime));
-            Thread th = new Thread(new Philosopher(i, tab, iteration, thinkingTimeArray, afterPickingLeftTimeArray, eatingTimeArray, afterReleaseLeftTimeArray));
+            //Thread th = new Thread(new Philosopher(p, tab, iteration, thinkingTimeArray, afterPickingLeftTimeArray, eatingTimeArray, afterReleaseLeftTimeArray));
+            Thread th = new Thread(new Philosopher(p, tab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]));
             th.start();
         }
 
@@ -62,14 +79,14 @@ public class DiningPhilosophers
 
         AdvTable advTab;
         advTab = new AdvTable(size);
-        for (int i = 0; i < size; i++) {
+        for (int p = 0; p < size; p++) {
             //Thread th = new Thread(new Philosopher(i, advTab, iteration, thinkingTime, afterPickingLeftTime, eatingTime, afterReleaseLeftTime));
-            Thread th = new Thread(new Philosopher(i, advTab, iteration, thinkingTimeArray, afterPickingLeftTimeArray, eatingTimeArray, afterReleaseLeftTimeArray));
+            //Thread th = new Thread(new Philosopher(p, advTab, iteration, thinkingTimeArray, afterPickingLeftTimeArray, eatingTimeArray, afterReleaseLeftTimeArray));
+            Thread th = new Thread(new Philosopher(p, advTab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]));
             th.start();
         }
-
         while (Thread.activeCount() > 1) {
-            Thread.sleep(2500);
+            Thread.sleep(2400);
         }
 
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
