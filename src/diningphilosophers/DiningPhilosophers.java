@@ -17,7 +17,7 @@ public class DiningPhilosophers
         final int size = 5; //number of philosophers and chopsticks
         final int iteration = 20;
         final int thinkingTime = 100;
-        final int afterPickingLeftTime = 10;
+        final int afterPickingLeftTime = 90;
         final int eatingTime = 100;
         final int afterReleaseLeftTime = 10;
 

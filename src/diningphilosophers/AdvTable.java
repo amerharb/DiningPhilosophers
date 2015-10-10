@@ -39,8 +39,8 @@ public class AdvTable
     {
         //philosopher n picks up its left chopstick
         int rightChopstick = (n + 1) % nbrOfChopsticks;
-        while ((advChopstick[n].status != 0 & advChopstick[n].philosopher != n)
-                | (advChopstick[rightChopstick].status != 0 & advChopstick[rightChopstick].philosopher != n)) {
+        while ((advChopstick[n].status != 0 && advChopstick[n].philosopher != n)
+                || (advChopstick[rightChopstick].status != 0 && advChopstick[rightChopstick].philosopher != n)) {
             this.wait();
         }
         advChopstick[n].status = 2;  //use Left Chopstick
@@ -58,7 +58,7 @@ public class AdvTable
         int rightChopstick = (n + 1) % nbrOfChopsticks;
 
         while (advChopstick[rightChopstick].status == 2
-                | (advChopstick[rightChopstick].status == 1 & advChopstick[rightChopstick].philosopher != n)) {
+                || (advChopstick[rightChopstick].status == 1 && advChopstick[rightChopstick].philosopher != n)) {
             System.out.println("---------------STOP: right one requested when its busy");
             this.wait();
         }

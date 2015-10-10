@@ -30,7 +30,7 @@ public class Table
         if (pos == nbrOfChopsticks) {
             pos = 0;
         }
-        while (!chopstick[n] | !chopstick[pos]) {
+        while (!chopstick[n] || !chopstick[pos]) {
             this.wait();
         }
 
