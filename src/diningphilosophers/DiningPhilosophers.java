@@ -14,8 +14,8 @@ public class DiningPhilosophers
     public static void main(String[] args) throws InterruptedException
     {
         //CHANGE HERE
-        final int size = 5; //number of philosophers and chopsticks
-        final int iteration = 100;
+        final int size = 7; //number of philosophers and chopsticks
+        final int iteration = 50;
         final int thinkingTime = 100;
         final int afterPickingLeftTime = 30;
         final int eatingTime = 100;
@@ -139,10 +139,12 @@ public class DiningPhilosophers
         System.out.println("ADV waiting:" + advTableWaiting);
         System.out.println("ADV total time:" + advTableTotalTime);
         
-        System.out.println("ADV waiting is faster than normal by (minus means slower) :" + ((double) (normalTableWaiting - advTableWaiting) / normalTableWaiting * 100) + "%");
-        System.out.println("ADV total time is faster than normal by (minus means slower) :" + ((double) (normalTableTotalTime - advTableTotalTime) / normalTableTotalTime * 100) + "%");
-        System.out.println("ADV waiting is faster than rl by (minus means slower) :" + ((double) (normalTableWaiting - rlTableWaiting) / rlTableWaiting * 100) + "%");
-        System.out.println("ADV total time is faster than rl by (minus means slower) :" + ((double) (normalTableTotalTime - rlTableTotalTime) / rlTableTotalTime * 100) + "%");
+        System.out.println("ADV waiting is faster than normal by :" + ((double) (normalTableWaiting - advTableWaiting) / normalTableWaiting * 100) + "%");
+        System.out.println("ADV total time is faster than normal by :" + ((double) (normalTableTotalTime - advTableTotalTime) / normalTableTotalTime * 100) + "%");
+        System.out.println("RL waiting is faster than normal by :" + ((double) (normalTableWaiting - rlTableWaiting) / normalTableWaiting * 100) + "%");
+        System.out.println("RL total time is faster than normal by :" + ((double) (normalTableTotalTime - rlTableTotalTime) / normalTableTotalTime * 100) + "%");
+        System.out.println("ADV waiting is faster than RL by :" + ((double) (rlTableWaiting - advTableWaiting) / rlTableWaiting * 100) + "%");
+        System.out.println("ADV total time is faster than RL by :" + ((double) (rlTableTotalTime - advTableTotalTime) / rlTableTotalTime * 100) + "%");
 
     }
 }
