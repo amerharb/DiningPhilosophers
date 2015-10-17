@@ -35,6 +35,8 @@ public class Philosopher implements Runnable
 
     private Table myTable;
     private AdvTable myAdvTable;
+    private RLTable myRLTable;
+    
     private byte whichTableToUse; // 0- Table class 1- Adv Table Class
 
     public Philosopher(int pid, Table tab, int iteration, int thinkingTime, int afterPickingLeftTime, int eatingTime, int afterReleaseLeftTime)
@@ -106,6 +108,26 @@ public class Philosopher implements Runnable
         runningMode = 1; //there will be no random value instead the timming will come in arrays
         id = pid;
         myAdvTable = advTab;
+        this.iteration = iteration;
+
+        this.thinkingTimeArray = thinkingTime;
+        this.afterPickingLeftTimeArray = afterPickingLeftTime;
+        this.eatingTimeArray = eatingTime;
+        this.afterReleaseLeftTimeArray = afterReleaseLeftTime;
+
+        this.thinkingTime = 0;
+        this.afterPickingLeftTime = 0;
+        this.eatingTime = 0;
+        this.afterReleaseLeftTime = 0;
+
+    }
+
+    public Philosopher(int pid, RLTable rlTab, int iteration, int[] thinkingTime, int[] afterPickingLeftTime, int[] eatingTime, int[] afterReleaseLeftTime)
+    {
+        whichTableToUse = 2; //thats mean the class will use the normal Table class
+        runningMode = 1; //there will be no random value instead the timming will come in arrays
+        id = pid;
+        myRLTable = rlTab;
         this.iteration = iteration;
 
         this.thinkingTimeArray = thinkingTime;
@@ -272,6 +294,43 @@ public class Philosopher implements Runnable
                         Thread.sleep((int) (afterReleaseLeftTimeArray[i]));
                         System.out.println("Philosopher " + id + " drop right");
                         myAdvTable.releaseRight(id);
+                        waitingSW.stop();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+            case 2:
+                for (int i = 0; i < iteration; i++) {
+                    try {
+                        //think
+                        System.out.println("Philosopher " + id + " thinks. Iteration " + i);
+                        thinkingSW.start();
+                        Thread.sleep((int) (thinkingTimeArray[i]));
+                        thinkingSW.stop();
+
+                        //pick up chopsticks
+                        System.out.println("Philosopher " + id + " pick up left");
+                        waitingSW.start();
+                        do {
+                            myRLTable.getLeft(id);
+                            Thread.sleep((int) (afterPickingLeftTimeArray[i]));
+                            System.out.println("Philosopher " + id + " pick up right");
+                            
+                        } while(!myRLTable.getRight(id)); 
+                        waitingSW.stop();
+                        //eat
+                        System.out.println("Philosopher " + id + " eats. Iteration " + i);
+                        eatingSW.start();
+                        Thread.sleep((int) (eatingTimeArray[i]));
+                        eatingSW.stop();
+                        //release chopsticks
+                        System.out.println("Philosopher " + id + " drop left");
+                        waitingSW.start();
+                        myRLTable.releaseLeft(id);
+                        Thread.sleep((int) (afterReleaseLeftTimeArray[i]));
+                        System.out.println("Philosopher " + id + " drop right");
+                        myRLTable.releaseRight(id);
                         waitingSW.stop();
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
