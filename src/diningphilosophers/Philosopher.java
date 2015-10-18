@@ -243,20 +243,20 @@ public class Philosopher implements Runnable
                         System.out.println("Philosopher " + id + " pick up left");
                         waitingSW.start();
                         myTable.getLeft(id);
-                        Thread.sleep((int) (afterPickingLeftTimeArray[i]));
+                        Thread.sleep(afterPickingLeftTimeArray[i]);
                         System.out.println("Philosopher " + id + " pick up right");
                         myTable.getRight(id);
                         waitingSW.stop();
                         //eat
                         System.out.println("Philosopher " + id + " eats. Iteration " + i);
                         eatingSW.start();
-                        Thread.sleep((int) (eatingTimeArray[i]));
+                        Thread.sleep(eatingTimeArray[i]);
                         eatingSW.stop();
                         //release chopsticks
                         System.out.println("Philosopher " + id + " drop left");
                         waitingSW.start();
                         myTable.releaseLeft(id);
-                        Thread.sleep((int) (afterReleaseLeftTimeArray[i]));
+                        Thread.sleep(afterReleaseLeftTimeArray[i]);
                         System.out.println("Philosopher " + id + " drop right");
                         myTable.releaseRight(id);
                         waitingSW.stop();
@@ -271,27 +271,27 @@ public class Philosopher implements Runnable
                         //think
                         System.out.println("Philosopher " + id + " thinks. Iteration " + i);
                         thinkingSW.start();
-                        Thread.sleep((int) (thinkingTimeArray[i]));
+                        Thread.sleep(thinkingTimeArray[i]);
                         thinkingSW.stop();
 
                         //pick up chopsticks
                         System.out.println("Philosopher " + id + " pick up left");
                         waitingSW.start();
                         myAdvTable.getLeft(id);
-                        Thread.sleep((int) (afterPickingLeftTimeArray[i]));
+                        Thread.sleep(afterPickingLeftTimeArray[i]);
                         System.out.println("Philosopher " + id + " pick up right");
                         myAdvTable.getRight(id);
                         waitingSW.stop();
                         //eat
                         System.out.println("Philosopher " + id + " eats. Iteration " + i);
                         eatingSW.start();
-                        Thread.sleep((int) (eatingTimeArray[i]));
+                        Thread.sleep(eatingTimeArray[i]);
                         eatingSW.stop();
                         //release chopsticks
                         System.out.println("Philosopher " + id + " drop left");
                         waitingSW.start();
                         myAdvTable.releaseLeft(id);
-                        Thread.sleep((int) (afterReleaseLeftTimeArray[i]));
+                        Thread.sleep(afterReleaseLeftTimeArray[i]);
                         System.out.println("Philosopher " + id + " drop right");
                         myAdvTable.releaseRight(id);
                         waitingSW.stop();
@@ -306,7 +306,7 @@ public class Philosopher implements Runnable
                         //think
                         System.out.println("Philosopher " + id + " thinks. Iteration " + i);
                         thinkingSW.start();
-                        Thread.sleep((int) (thinkingTimeArray[i]));
+                        Thread.sleep(thinkingTimeArray[i]);
                         thinkingSW.stop();
 
                         //pick up chopsticks
@@ -314,7 +314,7 @@ public class Philosopher implements Runnable
                         waitingSW.start();
                         do {
                             myRLTable.getLeft(id);
-                            Thread.sleep((int) (afterPickingLeftTimeArray[i]));
+                            Thread.sleep(afterPickingLeftTimeArray[i]);
                             System.out.println("Philosopher " + id + " pick up right");
                             
                         } while(!myRLTable.getRight(id)); 
@@ -322,13 +322,13 @@ public class Philosopher implements Runnable
                         //eat
                         System.out.println("Philosopher " + id + " eats. Iteration " + i);
                         eatingSW.start();
-                        Thread.sleep((int) (eatingTimeArray[i]));
+                        Thread.sleep(eatingTimeArray[i]);
                         eatingSW.stop();
                         //release chopsticks
                         System.out.println("Philosopher " + id + " drop left");
                         waitingSW.start();
                         myRLTable.releaseLeft(id);
-                        Thread.sleep((int) (afterReleaseLeftTimeArray[i]));
+                        Thread.sleep(afterReleaseLeftTimeArray[i]);
                         System.out.println("Philosopher " + id + " drop right");
                         myRLTable.releaseRight(id);
                         waitingSW.stop();

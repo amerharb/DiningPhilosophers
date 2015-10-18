@@ -14,10 +14,10 @@ public class DiningPhilosophers
     public static void main(String[] args) throws InterruptedException
     {
         //CHANGE HERE
-        final int size = 7; //number of philosophers and chopsticks
-        final int iteration = 50;
+        final int size = 5; //number of philosophers and chopsticks
+        final int iteration = 100;
         final int thinkingTime = 100;
-        final int afterPickingLeftTime = 30;
+        final int afterPickingLeftTime = 10;
         final int eatingTime = 100;
         final int afterReleaseLeftTime = 10;
 
@@ -86,6 +86,7 @@ public class DiningPhilosophers
             Thread th = new Thread(new Philosopher(p, advTab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]));
             th.start();
         }
+        
         while (Thread.activeCount() > 1) {
             Thread.sleep(2400);
         }

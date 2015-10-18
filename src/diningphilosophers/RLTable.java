@@ -47,7 +47,7 @@ public class RLTable
 
         if (!chopstick[pos]) { // if the right is busy then release the left asuming the as long as you start to pick up the right then the left already in hand
             releaseLeft(n);
-            Thread.sleep(10);
+            //Thread.sleep(10);
             return false;
         }
         chopstick[pos] = false;
