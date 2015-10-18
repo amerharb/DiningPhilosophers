@@ -397,4 +397,9 @@ public class Philosopher implements Runnable
         return waitingPeriod;
     }
 
+    public long getTotalPeriod()
+    {
+        return waitingPeriod + eatingPeriod + thinkingPeriod;
+    }
+
 }

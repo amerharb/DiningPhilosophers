@@ -51,87 +51,101 @@ public class DiningPhilosophers
 
         Table tab;
         tab = new Table(size);
+
+        Philosopher[] normalPh = new Philosopher[size];
+        
         for (int p = 0; p < size; p++) {
-            
-            //Thread th = new Thread(new Philosopher(i, tab, iteration, thinkingTime, afterPickingLeftTime, eatingTime, afterReleaseLeftTime));
-            //Thread th = new Thread(new Philosopher(p, tab, iteration, thinkingTimeArray, afterPickingLeftTimeArray, eatingTimeArray, afterReleaseLeftTimeArray));
-            Thread th = new Thread(new Philosopher(p, tab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]));
+            normalPh[p] = new Philosopher(p, tab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]);
+            Thread th = new Thread(normalPh[p]);
             th.start();
         }
+
+//        while (Thread.activeCount() > 1) {
+//            Thread.sleep(2500);
+//        }
+
+//        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//        System.out.println("the Result Above is for Normal Table Class for the folowing input");
+//        System.out.println("size = " + size);
+//        System.out.println("itreation = " + iteration);
+//        System.out.println("thinkingTime = " + thinkingTime);
+//        System.out.println("afterPickingLeftTime = " + afterPickingLeftTime);
+//        System.out.println("eatingTime =  " + eatingTime);
+//        System.out.println("afterReleaseLeftTime = " + afterReleaseLeftTime);
+//        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+//        Philosopher.resetAllPeriods();
+
+        AdvTable advTab;
+        advTab = new AdvTable(size);
+
+        Philosopher[] advPh = new Philosopher[size];
+        
+        for (int p = 0; p < size; p++) {
+            advPh[p] = new Philosopher(p, advTab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]);
+            Thread th = new Thread(advPh[p]);
+            th.start();
+        }
+        
+//        while (Thread.activeCount() > 1) {
+//            Thread.sleep(2400);
+//        }
+
+//        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//        System.out.println("the Result Above is for ADV Table Class for these input");
+//        System.out.println("size = " + size);
+//        System.out.println("itreation = " + iteration);
+//        System.out.println("thinkingTime = " + thinkingTime);
+//        System.out.println("afterPickingLeftTime = " + afterPickingLeftTime);
+//        System.out.println("eatingTime =  " + eatingTime);
+//        System.out.println("afterReleaseLeftTime = " + afterReleaseLeftTime);
+//        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+        //Philosopher.resetAllPeriods();
+
+        RLTable rlTab;
+        rlTab = new RLTable(size);
+
+        Philosopher[] rlPh = new Philosopher[size];
+
+        for (int p = 0; p < size; p++) {
+            rlPh[p] = new Philosopher(p, rlTab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]);
+            Thread th = new Thread(rlPh[p]);
+            th.start();
+        }
+//        while (Thread.activeCount() > 1) {
+//            Thread.sleep(2400);
+//        }
+
+//        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//        System.out.println("the Result Above is for RL Table Class for these input");
+//        System.out.println("size = " + size);
+//        System.out.println("itreation = " + iteration);
+//        System.out.println("thinkingTime = " + thinkingTime);
+//        System.out.println("afterPickingLeftTime = " + afterPickingLeftTime);
+//        System.out.println("eatingTime =  " + eatingTime);
+//        System.out.println("afterReleaseLeftTime = " + afterReleaseLeftTime);
+//        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         while (Thread.activeCount() > 1) {
             Thread.sleep(2500);
         }
 
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("the Result Above is for Normal Table Class for the folowing input");
-        System.out.println("size = " + size);
-        System.out.println("itreation = " + iteration);
-        System.out.println("thinkingTime = " + thinkingTime);
-        System.out.println("afterPickingLeftTime = " + afterPickingLeftTime);
-        System.out.println("eatingTime =  " + eatingTime);
-        System.out.println("afterReleaseLeftTime = " + afterReleaseLeftTime);
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-        long normalTableWaiting = Philosopher.getAllPhilosophersWaitingPeriods();
-        long normalTableTotalTime = Philosopher.getAllPhilosophersTotalPeriod();
-
-        Philosopher.resetAllPeriods();
-
-        AdvTable advTab;
-        advTab = new AdvTable(size);
+        long advTableWaiting = 0;// = Philosopher.getAllPhilosophersWaitingPeriods();
+        long advTableTotalTime = 0;// = Philosopher.getAllPhilosophersTotalPeriod();
+        long rlTableWaiting = 0;//Philosopher.getAllPhilosophersWaitingPeriods();
+        long rlTableTotalTime = 0;//Philosopher.getAllPhilosophersTotalPeriod();
+        long normalTableWaiting = 0; // = Philosopher.getAllPhilosophersWaitingPeriods();
+        long normalTableTotalTime = 0; // = Philosopher.getAllPhilosophersTotalPeriod();
         for (int p = 0; p < size; p++) {
-            //Thread th = new Thread(new Philosopher(i, advTab, iteration, thinkingTime, afterPickingLeftTime, eatingTime, afterReleaseLeftTime));
-            //Thread th = new Thread(new Philosopher(p, advTab, iteration, thinkingTimeArray, afterPickingLeftTimeArray, eatingTimeArray, afterReleaseLeftTimeArray));
-            Thread th = new Thread(new Philosopher(p, advTab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]));
-            th.start();
+            advTableWaiting += advPh[p].getWaitingPeriod();
+            advTableTotalTime += advPh[p].getTotalPeriod();
+            rlTableWaiting += rlPh[p].getWaitingPeriod();
+            rlTableTotalTime += rlPh[p].getTotalPeriod();
+            normalTableWaiting += normalPh[p].getWaitingPeriod();
+            normalTableTotalTime += normalPh[p].getTotalPeriod();
         }
-        
-        while (Thread.activeCount() > 1) {
-            Thread.sleep(2400);
-        }
-
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("the Result Above is for ADV Table Class for these input");
-        System.out.println("size = " + size);
-        System.out.println("itreation = " + iteration);
-        System.out.println("thinkingTime = " + thinkingTime);
-        System.out.println("afterPickingLeftTime = " + afterPickingLeftTime);
-        System.out.println("eatingTime =  " + eatingTime);
-        System.out.println("afterReleaseLeftTime = " + afterReleaseLeftTime);
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-        long advTableWaiting = Philosopher.getAllPhilosophersWaitingPeriods();
-        long advTableTotalTime = Philosopher.getAllPhilosophersTotalPeriod();
-
-        Philosopher.resetAllPeriods();
-
-        RLTable rlTab;
-        rlTab = new RLTable(size);
-        for (int p = 0; p < size; p++) {
-            //Thread th = new Thread(new Philosopher(i, advTab, iteration, thinkingTime, afterPickingLeftTime, eatingTime, afterReleaseLeftTime));
-            //Thread th = new Thread(new Philosopher(p, advTab, iteration, thinkingTimeArray, afterPickingLeftTimeArray, eatingTimeArray, afterReleaseLeftTimeArray));
-            Thread th = new Thread(new Philosopher(p, rlTab, iteration, PhilosophersTimingArray[p][0], PhilosophersTimingArray[p][1], PhilosophersTimingArray[p][2], PhilosophersTimingArray[p][3]));
-            th.start();
-        }
-        while (Thread.activeCount() > 1) {
-            Thread.sleep(2400);
-        }
-
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("the Result Above is for RL Table Class for these input");
-        System.out.println("size = " + size);
-        System.out.println("itreation = " + iteration);
-        System.out.println("thinkingTime = " + thinkingTime);
-        System.out.println("afterPickingLeftTime = " + afterPickingLeftTime);
-        System.out.println("eatingTime =  " + eatingTime);
-        System.out.println("afterReleaseLeftTime = " + afterReleaseLeftTime);
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-        long rlTableWaiting = Philosopher.getAllPhilosophersWaitingPeriods();
-        long rlTableTotalTime = Philosopher.getAllPhilosophersTotalPeriod();
-        
-        Philosopher.resetAllPeriods();
+//        Philosopher.resetAllPeriods();
 
         System.out.println("normal waiting:" + normalTableWaiting);
         System.out.println("normal total time:" + normalTableTotalTime);
